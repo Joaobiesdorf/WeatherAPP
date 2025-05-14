@@ -52,6 +52,23 @@ function showInfo(json){
     document.querySelector('#temp_min').innerHTML = `${json.tempMin.toFixed(1).toString().replace('.', ',')} <sup>C°</sup>`;
     document.querySelector('#humidity').innerHTML = `${json.humidity}%`;
     document.querySelector('#wind').innerHTML = `${json.windSpeed.toFixed(1)}km/h`;
+
+    // Altera o plano de fundo conforme o clima
+    const icon = json.tempIcon;
+    const isNight = icon.includes('n');
+    const body = document.body;
+
+    if (isNight) {
+        body.style.backgroundImage = 'url("img/noite.png")';
+    } else if (icon.startsWith('01')) {
+        body.style.backgroundImage = 'url("img/ensolarado2.png")'; // Céu limpo
+    } else if (icon.startsWith('02') || icon.startsWith('03') || icon.startsWith('04')) {
+        body.style.backgroundImage = 'url("img/nublado.png")'; // Nuvens
+    } else if (icon.startsWith('09') || icon.startsWith('10')) {
+        body.style.backgroundImage = 'url("img/chuva.png")'; // Chuva
+    } else {
+        body.style.backgroundImage = 'url("img/ensolarado2.png")'; // Padrão
+    }
 }
 
 function showAlert(msg) {
